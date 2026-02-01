@@ -1,7 +1,5 @@
 """Reference resource for compression methods."""
 
-from __future__ import annotations
-
 from fastmcp import Context
 
 from src.app import mcp

@@ -1,7 +1,5 @@
 """Tool for storing epistemic justifications."""
 
-from __future__ import annotations
-
 import logging
 
 from fastmcp import Context

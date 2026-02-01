@@ -1,5 +1,3 @@
-from __future__ import annotations
-
 """Tool package placeholder.
 
 Python-native tool modules (e.g., raster.info/convert/reproject, vector.info/reproject)

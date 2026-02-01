@@ -1,7 +1,5 @@
 """Vector info tool using Python-native pyogrio."""
 
-from __future__ import annotations
-
 try:
     import pyogrio  # noqa: F401
 

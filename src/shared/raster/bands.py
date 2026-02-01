@@ -46,7 +46,13 @@ def band_metadata(path: str, *, include_statistics: bool = False) -> dict[str, A
 
                     if include_statistics:
                         try:
-                            stats = src.statistics(index, approx=True)
+                            if hasattr(src, "stats"):
+                                stats_list = src.stats(approx=True)
+                                stats = stats_list[index - 1] if stats_list else None
+                            else:
+                                stats = src.statistics(index, approx=True)
+                            if stats is None:
+                                raise ValueError("No statistics returned for raster band.")
                             band_info["statistics"] = {
                                 "min": stats.min,
                                 "max": stats.max,

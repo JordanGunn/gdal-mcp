@@ -1,7 +1,5 @@
 """Metadata resource for dataset format information."""
 
-from __future__ import annotations
-
 from typing import Any
 
 from fastmcp.exceptions import ToolError

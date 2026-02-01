@@ -1,7 +1,5 @@
 """Base catalog collection logic for workspace scanning."""
 
-from __future__ import annotations
-
 from collections.abc import Sequence
 from typing import Literal
 

@@ -1,7 +1,5 @@
 """Catalog resource for raster datasets."""
 
-from __future__ import annotations
-
 from collections.abc import Iterable
 
 from fastmcp import Context
