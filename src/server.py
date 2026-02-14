@@ -18,40 +18,37 @@ from src.middleware.paths import PathValidationMiddleware
 from src.middleware.reflection_middleware import ReflectionMiddleware
 from src.prompts import register_prompts
 
-RASTER_ENABLED = is_raster_tools_enabled()
-VECTOR_ENABLED = is_vector_tools_enabled()
-
-if RASTER_ENABLED:
+if is_raster_tools_enabled():
     import src.resources.catalog.raster  # noqa: F401
 
-if VECTOR_ENABLED:
+if is_vector_tools_enabled():
     import src.resources.catalog.vector  # noqa: F401
 
 # ===============================================================
 # resources/metadata
 # ===============================================================
-if RASTER_ENABLED:
+if is_raster_tools_enabled():
     import src.resources.metadata.band  # noqa: F401
     import src.resources.metadata.raster  # noqa: F401
     import src.resources.metadata.statistics  # noqa: F401
 
-if VECTOR_ENABLED:
+if is_vector_tools_enabled():
     import src.resources.metadata.vector  # noqa: F401
 
-if RASTER_ENABLED or VECTOR_ENABLED:
+if is_raster_tools_enabled() or is_vector_tools_enabled():
     import src.resources.query.result  # noqa: F401
 
 # ===============================================================
 # tools
 # ===============================================================
-if RASTER_ENABLED:
+if is_raster_tools_enabled():
     import src.tools.raster.convert  # noqa: F401
     import src.tools.raster.info  # noqa: F401
     import src.tools.raster.query  # noqa: F401
     import src.tools.raster.reproject  # noqa: F401
     import src.tools.raster.stats  # noqa: F401
 
-if VECTOR_ENABLED:
+if is_vector_tools_enabled():
     import src.tools.vector.buffer  # noqa: F401
     import src.tools.vector.clip  # noqa: F401
     import src.tools.vector.convert  # noqa: F401

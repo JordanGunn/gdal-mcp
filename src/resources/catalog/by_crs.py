@@ -1,7 +1,5 @@
 """CRS-filtered catalog resource."""
 
-from __future__ import annotations
-
 from typing import Literal
 
 from fastmcp import Context

@@ -1,7 +1,5 @@
 """Workspace summary catalog resource."""
 
-from __future__ import annotations
-
 from fastmcp import Context
 
 from src.app import mcp

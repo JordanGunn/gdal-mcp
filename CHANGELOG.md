@@ -33,6 +33,29 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Reflection preflight now recognizes query reflection prompt hashing (`justify_query_extent`).
 - `store_justification` documentation now includes `spatial_query` as a valid domain.
 
+## [1.1.3] - 2026-02-01
+
+### Fixed
+
+- **Server startup**: Prevented NameError during tool/resource registration by eagerly evaluating type annotations in MCP modules.
+- **Raster band stats**: Switched to `stats()` with safe fallback handling to avoid Rasterio deprecation warnings.
+
+### Added
+
+- **Regression coverage**: Tests to ensure resource/tool annotations are evaluated (guards against missing typing imports).
+- **CI**: CLI smoke test via `gdal --help` in the test workflow.
+
+## [1.1.2] - 2025-10-27
+
+### Added
+
+- Environment variable toggles (`VECTOR`, `RASTER`) to enable or disable registration of vector/raster tool categories and their single-domain resources.
+- Dedicated environment variable reference linked from the README to document runtime configuration.
+
+### Changed
+
+- Server bootstrap now conditionally registers raster/vector tools and resources based on environment flags to reduce tool surface when needed.
+
 ## [1.1.1] - 2025-10-26
 
 ### 🎉 Major Feature Release - Vector Tool Parity & Cross-Domain Reflection

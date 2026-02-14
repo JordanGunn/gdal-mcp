@@ -1,7 +1,5 @@
 """Vector buffer tool using Python-native pyogrio and shapely."""
 
-from __future__ import annotations
-
 from fastmcp import Context
 from fastmcp.exceptions import ToolError
 

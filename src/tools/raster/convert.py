@@ -1,7 +1,5 @@
 """Raster conversion tool using Python-native Rasterio."""
 
-from __future__ import annotations
-
 import rasterio
 from fastmcp import Context
 from fastmcp.exceptions import ToolError

@@ -1,7 +1,5 @@
 """Vector format conversion tool using Python-native pyogrio."""
 
-from __future__ import annotations
-
 from fastmcp import Context
 from fastmcp.exceptions import ToolError
 

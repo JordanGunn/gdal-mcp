@@ -1,7 +1,5 @@
 """Metadata resource for raster datasets."""
 
-from __future__ import annotations
-
 from typing import Any
 
 from src.app import mcp
