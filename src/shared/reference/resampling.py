@@ -2,19 +2,8 @@
 
 from __future__ import annotations
 
-from enum import Enum
-
-try:  # Python 3.11+
-    from enum import StrEnum
-except ImportError:  # pragma: no cover - backport for Python 3.10
-
-    class StrEnum(str, Enum):
-        """Minimal StrEnum backport for Python < 3.11."""
-
-        pass
-
-
 from collections.abc import Mapping, Sequence
+from enum import StrEnum
 from functools import lru_cache
 from types import MappingProxyType
 from typing import Final, TypedDict
