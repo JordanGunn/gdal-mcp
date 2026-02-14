@@ -62,6 +62,9 @@ conport_export/
 .epistemic/
 context_portal/
 .agents/
+.asi/
+.codex/
+.plan/
 
 # MCP configs
 .mcp-config.json

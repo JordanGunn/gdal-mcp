@@ -21,7 +21,7 @@ logger = logging.getLogger(__name__)
         "The stored justification allows subsequent tool calls to proceed "
         "without re-justification. "
         "REQUIRES: tool_name (name of the tool this justification is for), "
-        "domain (crs_datum, resampling, hydrology, aggregation), "
+        "domain (crs_datum, resampling, hydrology, aggregation, spatial_query), "
         "prompt_name (name of the prompt that generated this), "
         "prompt_args (dict of arguments used in the prompt), "
         "justification (the generated justification as dict with "

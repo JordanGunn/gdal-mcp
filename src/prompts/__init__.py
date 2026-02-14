@@ -4,7 +4,7 @@ from __future__ import annotations
 
 from fastmcp import FastMCP
 
-from . import aggregation, crs, hydrology, resampling
+from . import aggregation, crs, hydrology, resampling, spatial_query
 
 __all__ = ["register_prompts"]
 
@@ -20,3 +20,4 @@ def register_prompts(mcp: FastMCP) -> None:
     resampling.register(mcp)
     hydrology.register(mcp)
     aggregation.register(mcp)
+    spatial_query.register(mcp)

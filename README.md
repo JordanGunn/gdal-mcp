@@ -132,8 +132,8 @@ See **[Tools Reference](TOOLS.md)** for detailed examples of all available tools
 - **Cross-domain cache sharing** - CRS justification works for both raster AND vector
 
 ### 🛠️ Comprehensive Toolset
-- **Raster tools:** info, convert, reproject, stats
-- **Vector tools:** info, reproject, convert, clip, buffer, simplify
+- **Raster tools:** info, convert, reproject, stats, query
+- **Vector tools:** info, reproject, convert, clip, buffer, simplify, query
 - See **[Tools Reference](TOOLS.md)** for complete documentation
 
 ### 🛡️ Production Quality
@@ -147,6 +147,7 @@ See **[Tools Reference](TOOLS.md)** for detailed examples of all available tools
 - Workspace catalog for autonomous file discovery
 - Metadata intelligence for format detection  
 - Reference knowledge base (CRS, resampling methods, compression options)
+- Query result resources for inspecting spatial query outputs (`query://result/{id}`)
 
 ## 📦 Quick Start
 
@@ -181,15 +182,19 @@ Add to `~/Library/Application Support/Claude/claude_desktop_config.json`:
 - Workspace security setup
 - Troubleshooting guide
 
+**See [docs/ENVIRONMENT_VARIABLES.md](docs/ENVIRONMENT_VARIABLES.md) for all runtime flags**
+including workspace scoping, tool registration toggles (`RASTER`/`VECTOR`), and query registry TTL/capacity.
+
 ## 🔧 Available Tools
 
-GDAL MCP provides 12 production-ready tools across three categories:
+GDAL MCP provides 13 production-ready tools across three categories:
 
 ### Raster Operations
 - `raster_info` - Inspect metadata (CRS, resolution, bands, nodata)
 - `raster_convert` - Format conversion with compression & overviews (COG support)
 - `raster_reproject` ⚡ - CRS transformation (with reflection)
 - `raster_stats` - Statistical analysis with histograms
+- `raster_query` ⚡ - Spatial window query (bbox or geometry)
 
 ### Vector Operations
 - `vector_info` - Inspect metadata (CRS, geometry, attributes)
@@ -198,14 +203,17 @@ GDAL MCP provides 12 production-ready tools across three categories:
 - `vector_clip` - Spatial subsetting
 - `vector_buffer` - Proximity analysis
 - `vector_simplify` - Geometry simplification
+- `vector_query` ⚡ - Spatial/attribute query (bbox or geometry)
 
 ### Reflection System
 - `store_justification` - Cache epistemic reasoning (used internally)
-- Advisory prompts for CRS selection and resampling methods
+- Advisory prompts for CRS selection, resampling methods, and query extents
 
 **⚡ = Reflection-enabled:** These tools require methodological justification on first use, then cache for instant subsequent execution.
 
 **See [TOOLS.md](TOOLS.md) for complete documentation with examples and parameters.**
+
+**Note:** Spatial query tools currently provide core querying only (Phase 3a). Indexing/VRT optimizations are deferred to future phases.
 
 ## 🧪 Testing
 
