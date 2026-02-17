@@ -72,7 +72,7 @@ async def test_query_result_resource(tiny_raster_gtiff) -> None:
     )
     query_id = result["metadata"]["id"]
 
-    resource_or_awaitable = get_query_result_resource.fn(query_id=query_id)
+    resource_or_awaitable = get_query_result_resource.fn(query_id=query_id, ctx=None)
     resource = (
         await resource_or_awaitable
         if inspect.isawaitable(resource_or_awaitable)
