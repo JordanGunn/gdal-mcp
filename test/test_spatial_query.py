@@ -2,8 +2,6 @@
 
 from __future__ import annotations
 
-import inspect
-
 import pytest
 from fastmcp.exceptions import ToolError
 
@@ -72,12 +70,7 @@ async def test_query_result_resource(tiny_raster_gtiff) -> None:
     )
     query_id = result["metadata"]["id"]
 
-    resource_or_awaitable = get_query_result_resource.fn(query_id=query_id, ctx=None)
-    resource = (
-        await resource_or_awaitable
-        if inspect.isawaitable(resource_or_awaitable)
-        else resource_or_awaitable
-    )
+    resource = get_query_result_resource.fn.raw_function(query_id=query_id, ctx=None)
     assert resource["id"] == query_id
     assert resource["kind"] == "raster"
 
