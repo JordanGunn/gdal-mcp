@@ -70,7 +70,14 @@ async def test_query_result_resource(tiny_raster_gtiff) -> None:
     )
     query_id = result["metadata"]["id"]
 
-    resource = get_query_result_resource.fn.raw_function(query_id=query_id, ctx=None)
+    # Call resource directly, handling both sync and async wrappers
+    import inspect
+    resource_call = get_query_result_resource.fn(query_id=query_id)
+    if inspect.iscoroutine(resource_call):
+        resource = await resource_call
+    else:
+        resource = resource_call
+
     assert resource["id"] == query_id
     assert resource["kind"] == "raster"
 
