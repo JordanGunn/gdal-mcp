@@ -72,6 +72,7 @@ async def test_query_result_resource(tiny_raster_gtiff) -> None:
 
     # Call resource directly, handling both sync and async wrappers
     import inspect
+
     resource_call = get_query_result_resource.fn(query_id=query_id)
     if inspect.iscoroutine(resource_call):
         resource = await resource_call
