@@ -2,17 +2,8 @@
 
 from __future__ import annotations
 
-from enum import Enum
+from enum import StrEnum
 from typing import TypedDict
-
-try:  # Python 3.11+
-    from enum import StrEnum
-except ImportError:  # pragma: no cover - backport for Python 3.10
-
-    class StrEnum(str, Enum):
-        """Minimal StrEnum backport for Python < 3.11."""
-
-        pass
 
 
 class GlossaryCategory(StrEnum):

@@ -5,6 +5,34 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [Unreleased]
+
+### Added
+
+- Spatial query primitives (Phase 3a):
+  - `raster_query` for raster window extraction by bbox/geometry
+  - `vector_query` for vector subsetting by bbox/geometry with optional `where`/`attributes`
+  - `query://result/{id}` resource for query result metadata lookup
+- `spatial_query` reflection domain and `justify_query_extent` prompt integration.
+- In-memory query result registry with configurable TTL and max-result caps:
+  - `GDAL_MCP_QUERY_TTL_SECONDS`
+  - `GDAL_MCP_QUERY_MAX_RESULTS`
+- Environment variable documentation in `docs/ENVIRONMENT_VARIABLES.md`.
+
+### Changed
+
+- Server registration now respects runtime flags for tool/resource surface control:
+  - `RASTER` to enable/disable raster tools/resources
+  - `VECTOR` to enable/disable vector tools/resources
+- Tooling/docs updated to reflect query features:
+  - `README.md` updated tool summary and env-var docs link
+  - `TOOLS.md` updated with `raster_query` and `vector_query` references
+
+### Fixed
+
+- Reflection preflight now recognizes query reflection prompt hashing (`justify_query_extent`).
+- `store_justification` documentation now includes `spatial_query` as a valid domain.
+
 ## [1.1.3] - 2026-02-01
 
 ### Fixed

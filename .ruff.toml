@@ -1,6 +1,7 @@
 # .ruff.toml
 line-length = 100
 target-version = "py311"
+extend-exclude = [".codex", ".asi", ".plan"]
 
 [format]
 quote-style = "double"

@@ -1,7 +1,7 @@
-from enum import Enum
+from enum import StrEnum
 
 
-class String(str, Enum):
+class String(StrEnum):
     """Base class for string-backed enumerations."""
 
     def __new__(cls, value: str) -> "String":
