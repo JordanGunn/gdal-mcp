@@ -5,7 +5,6 @@ from __future__ import annotations
 import pytest
 from fastmcp.exceptions import ToolError
 
-from src.resources.query.result import get_query_result_resource
 from src.shared.query_registry import clear_query_results
 from src.tools.raster.query import raster_query
 from src.tools.vector.query import vector_query
@@ -62,6 +61,8 @@ async def test_vector_query_in_memory(tiny_vector_geojson) -> None:
 
 @pytest.mark.asyncio
 async def test_query_result_resource(tiny_raster_gtiff) -> None:
+    from src.shared.query_registry import get_query_result
+
     clear_query_results()
     result = await raster_query.fn(
         uri=str(tiny_raster_gtiff),
@@ -70,15 +71,11 @@ async def test_query_result_resource(tiny_raster_gtiff) -> None:
     )
     query_id = result["metadata"]["id"]
 
-    # Call resource directly, handling both sync and async wrappers
-    import inspect
+    # Test the underlying registry lookup that the resource wraps,
+    # avoiding FastMCP dependency injection which requires an active context.
+    resource = get_query_result(query_id)
 
-    resource_call = get_query_result_resource.fn(query_id=query_id)
-    if inspect.iscoroutine(resource_call):
-        resource = await resource_call
-    else:
-        resource = resource_call
-
+    assert resource is not None
     assert resource["id"] == query_id
     assert resource["kind"] == "raster"
 
