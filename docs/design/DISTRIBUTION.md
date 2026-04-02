@@ -14,15 +14,16 @@ Shipping the GDAL MCP consistently across environments is as important as implem
 
 Implementation details:
 
-1. **Packaging metadata.** Use `pyproject.toml` with `project.scripts = { "gdal-mcp" = "gdal_mcp.__main__:main" }` so `uvx` exposes a console entry point.
+1. **Packaging metadata.** Use `pyproject.toml` with `project.scripts = { "gdal" = "src.__main__:main" }` so `uvx` exposes the current console entry point.
 2. **fastMCP integration.** Depend on `fastmcp` and configure the entrypoint to instantiate the GDAL tool set before handing control to fastMCP’s server runner.
 3. **Wheel dependencies.** Document that GDAL binaries will not be explicitly used, but rather, emulated in alignment with the ubiquotously known gdal CLI commands. This avoids the requirement that the GDAL binaries be available on the host system.
 4. **Version pinning.** Leverage `uv lock` files to ensure deterministic dependency resolution for both development and runtime.
 5. **Usage docs.** Add a quick-start snippet to the README:
    ```bash
-   uvx gdal-mcp --workspace /data/projects
+   uvx --from gdal-mcp gdal --transport stdio
    ```
-   The launcher downloads the wheel, resolves dependencies, and starts the fastMCP server in one step.
+   Configure workspace scoping via environment variables (for example `GDAL_MCP_WORKSPACES=/data/projects`).
+   The launcher downloads the wheel, resolves dependencies, and starts the FastMCP server in one step.
 6. **Offline-friendly.** Encourage teams to prime a private `uvx` package index or pre-populate caches when air-gapped deployments are required.
 
 This approach is ideal for developers who already use `uv` or want an ephemeral environment without managing virtualenvs manually.
@@ -47,8 +48,8 @@ Combining Docker with `uvx` lets teams choose between light-weight local executi
 ## Local Development
 
 - Use `uv` for dependency management (`uv sync` to install dev requirements and create a managed virtual environment).
-- Provide `uv run` commands in contributor docs so developers can launch the fastMCP server (`uv run gdal-mcp serve --transport stdio`).
-- Document how to run HTTP transport (`uv run gdal-mcp serve --transport http --port 8000`) and how to override GDAL discovery with `GDAL_MCP_GDAL_HOME` if needed.
+- Provide `uv run` commands in contributor docs so developers can launch the FastMCP server (`uv run gdal --transport stdio`).
+- Document how to run HTTP transport (`uv run gdal --transport http --port 8000`) and workspace controls (`GDAL_MCP_WORKSPACES`, `RASTER`, `VECTOR`) for deployment hardening.
 - Include sample datasets in `test/data/` for integration testing and documentation examples.
 - Encourage pre-commit hooks (`uv run pre-commit run --all-files`) to enforce formatting and schema linting before pushing changes.
 

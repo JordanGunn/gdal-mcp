@@ -11,6 +11,7 @@ from __future__ import annotations
 import src.resources.catalog.all  # noqa: F401
 import src.resources.catalog.by_crs  # noqa: F401
 import src.resources.catalog.summary  # noqa: F401
+import src.tools.reflection.store_justification  # noqa: F401
 from src.app import mcp
 from src.config import is_raster_tools_enabled, is_vector_tools_enabled
 from src.middleware.paths import PathValidationMiddleware
@@ -34,12 +35,16 @@ if is_raster_tools_enabled():
 if is_vector_tools_enabled():
     import src.resources.metadata.vector  # noqa: F401
 
+if is_raster_tools_enabled() or is_vector_tools_enabled():
+    import src.resources.query.result  # noqa: F401
+
 # ===============================================================
 # tools
 # ===============================================================
 if is_raster_tools_enabled():
     import src.tools.raster.convert  # noqa: F401
     import src.tools.raster.info  # noqa: F401
+    import src.tools.raster.query  # noqa: F401
     import src.tools.raster.reproject  # noqa: F401
     import src.tools.raster.stats  # noqa: F401
 
@@ -48,10 +53,9 @@ if is_vector_tools_enabled():
     import src.tools.vector.clip  # noqa: F401
     import src.tools.vector.convert  # noqa: F401
     import src.tools.vector.info  # noqa: F401
+    import src.tools.vector.query  # noqa: F401
     import src.tools.vector.reproject  # noqa: F401
     import src.tools.vector.simplify  # noqa: F401
-
-import src.tools.reflection.store_justification  # noqa: F401
 
 # ===============================================================
 # prompts

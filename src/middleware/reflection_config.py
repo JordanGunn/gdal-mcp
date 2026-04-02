@@ -58,6 +58,26 @@ TOOL_REFLECTIONS: dict[str, list[ReflectionSpec]] = {
             args_fn=lambda kwargs: {"dst_crs": kwargs.get("dst_crs", "unknown")},
         ),
     ],
+    "raster_query": [
+        ReflectionSpec(
+            domain="spatial_query",
+            prompt_name="justify_query_extent",
+            args_fn=lambda kwargs: {
+                "geometry": kwargs.get("geometry"),
+                "purpose": kwargs.get("purpose"),
+            },
+        ),
+    ],
+    "vector_query": [
+        ReflectionSpec(
+            domain="spatial_query",
+            prompt_name="justify_query_extent",
+            args_fn=lambda kwargs: {
+                "geometry": kwargs.get("geometry"),
+                "purpose": kwargs.get("purpose"),
+            },
+        ),
+    ],
 }
 
 

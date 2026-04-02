@@ -66,7 +66,7 @@ src/
 
 ## Reflection Domains
 
-### Current (v1.0.0)
+### Current (v1.2.0 phase scope)
 
 #### `crs_datum` — Coordinate Reference System Selection
 
@@ -138,6 +138,19 @@ src/
 
 **Cache key includes:** `method` parameter only
 
+#### `spatial_query` — Spatial Extent Selection
+
+**Triggered by:** `raster_query(...)` and `vector_query(...)`
+
+**Prompt:** `justify_query_extent(geometry, purpose)`
+
+**Questions enforced:**
+- What spatial intent must this extent satisfy?
+- Which broader/narrower alternatives were considered?
+- What coverage vs precision tradeoff is acceptable?
+
+**Cache key includes:** normalized `geometry` + `purpose`
+
 ### Planned (v1.1.0+)
 
 #### `hydrology` — DEM Conditioning & Flow Analysis
@@ -181,31 +194,35 @@ src/
 ### Hash Computation
 
 Cache keys are computed using SHA256 of:
-1. **Tool name** (e.g., `raster_reproject`)
-2. **Normalized prompt arguments** (sorted dict, stable JSON)
-3. **Prompt name** (e.g., `justify_crs_selection`)
-4. **Domain** (e.g., `crs_datum`)
+1. **Domain** (e.g., `crs_datum`)
+2. **Prompt source hash** (e.g., `justify_crs_selection`)
+3. **Normalized prompt arguments** (sorted dict, stable JSON)
 
 **Example:**
 ```python
 # Input parameters
-tool_name = "raster_reproject"
 prompt_args = {"dst_crs": "EPSG:3857"}
-prompt_name = "justify_crs_selection"
 domain = "crs_datum"
+prompt_hash = "<hash of prompt source>"
 
 # Normalized for hashing
 normalized = json.dumps(prompt_args, sort_keys=True)
 # → '{"dst_crs": "EPSG:3857"}'
 
 # Combined hash input
-hash_input = f"{tool_name}::{normalized}::{domain}::{prompt_hash}"
-# → "raster_reproject::{'dst_crs': 'EPSG:3857'}::crs_datum::sha256:..."
+hash_input = json.dumps({
+    "domain": domain,
+    "prompt_hash": prompt_hash,
+    **prompt_args
+}, sort_keys=True, separators=(",", ":"))
 
 # Final cache key
 cache_key = hashlib.sha256(hash_input.encode()).hexdigest()
 # → "sha256:abc123def456..."
 ```
+
+**Important:** cache keys are **domain-based, not tool-based**. This enables cross-tool reuse
+for the same methodological reasoning (for example, CRS justifications across raster/vector reprojection).
 
 ### Cache Storage
 

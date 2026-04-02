@@ -6,11 +6,12 @@ Resources provide read-only information per ADR-0023:
 - reference:// System capabilities (formats, CRS, compression, glossary)
 """
 
-from src.resources import catalog, reference
+from src.resources import catalog, query, reference
 from src.resources.metadata import band, format_detection, raster, statistics, vector
 
 __all__ = [
     "catalog",
+    "query",
     "reference",
     "band",
     "format_detection",

@@ -15,8 +15,8 @@ def _get_bool_env(var_name: str, *, default: bool = True) -> bool:
     """Read a boolean environment variable with strict, explicit values.
 
     Accepts only the following values (case-insensitive):
-    - "1" or "true" → True
-    - "0" or "false" → False
+    - "1" or "true" -> True
+    - "0" or "false" -> False
 
     Any other value logs a warning and returns the default to avoid
     surprising behavior.

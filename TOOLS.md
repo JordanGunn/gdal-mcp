@@ -6,8 +6,8 @@ Complete reference for all available tools in GDAL MCP.
 
 ## Tool Categories
 
-- [Raster Tools](#raster-tools) - Raster data operations (info, convert, reproject, stats)
-- [Vector Tools](#vector-tools) - Vector data operations (info, reproject, convert, clip, buffer, simplify)
+- [Raster Tools](#raster-tools) - Raster data operations (info, convert, reproject, stats, query)
+- [Vector Tools](#vector-tools) - Vector data operations (info, reproject, convert, clip, buffer, simplify, query)
 - [Reflection Tools](#reflection-tools) - Epistemic justification system
 
 ---
@@ -181,6 +181,39 @@ User: "Check the elevation range in this DEM"
 AI: *calls raster_stats*
     "Elevation ranges from 145m to 2,847m with mean 892m.
      Distribution shows two peaks (bimodal) - likely valley and ridge areas."
+```
+
+---
+
+### `raster_query` ⚡
+
+**Purpose:** Spatial subset extraction from rasters using bbox or GeoJSON geometry.
+
+**Use cases:**
+- Pull a smaller analysis window from large rasters
+- Build focused derivatives for downstream tools
+- Compare localized pixel statistics
+
+**🧠 Reflection Required:**
+- **Query extent selection** - Why this geometry/bbox is appropriate for the stated purpose
+
+**Parameters:**
+- `uri` (required): Source raster path
+- `geometry` (required): GeoJSON geometry or `[minx, miny, maxx, maxy]`
+- `output` (optional): Persist subset to disk; if omitted, keep in memory
+- `bands` (optional): Band indices to read
+- `purpose` (optional): Reason for choosing this spatial extent
+
+**Returns:**
+- Query resource reference: `query://result/{id}`
+- Optional output `ResourceRef` when `output` is set
+- Metadata including pixel count, geometry used, TTL/expiry, and persistence status
+
+**Example conversation:**
+```
+User: "Extract a 5km window around this site from the DEM"
+AI: *calls raster_query with bbox*
+    "Created raster subset and registered query://result/{id} for inspection."
 ```
 
 ---
@@ -414,6 +447,40 @@ AI: *calls vector_simplify(tolerance=100, algorithm="douglas-peucker")*
 
 ---
 
+### `vector_query` ⚡
+
+**Purpose:** Spatial and attribute subsetting for vector datasets.
+
+**Use cases:**
+- Subset features to an AOI
+- Filter records with SQL-like `where` expressions
+- Keep only specific attributes for lean outputs
+
+**🧠 Reflection Required:**
+- **Query extent selection** - Why this geometry/bbox is appropriate for the stated purpose
+
+**Parameters:**
+- `uri` (required): Source vector path
+- `geometry` (required): GeoJSON geometry or `[minx, miny, maxx, maxy]`
+- `output` (optional): Persist subset to disk; if omitted, keep in memory
+- `attributes` (optional): Columns to retain
+- `where` (optional): Attribute filter clause
+- `purpose` (optional): Reason for choosing this spatial extent
+
+**Returns:**
+- Query resource reference: `query://result/{id}`
+- Optional output `ResourceRef` when `output` is set
+- Metadata including feature count, filters used, TTL/expiry, and persistence status
+
+**Example conversation:**
+```
+User: "Get parcels in this neighborhood where zoning = R1"
+AI: *calls vector_query with bbox + where*
+    "Filtered parcel subset is ready and indexed as query://result/{id}."
+```
+
+---
+
 ## Reflection Tools
 
 ### `store_justification`
@@ -427,7 +494,7 @@ AI: *calls vector_simplify(tolerance=100, algorithm="douglas-peucker")*
 
 **Parameters:**
 - `tool_name`: Name of tool this justification is for
-- `domain`: Reflection domain (crs_datum, resampling, hydrology, aggregation)
+- `domain`: Reflection domain (crs_datum, resampling, hydrology, aggregation, spatial_query)
 - `prompt_name`: Name of the prompt that generated this
 - `prompt_args`: Arguments used in the prompt (dict)
 - `justification`: The structured justification (dict with intent, alternatives, choice, confidence)

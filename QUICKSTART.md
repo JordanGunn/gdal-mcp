@@ -28,10 +28,10 @@ uvx --from dist/gdal_mcp-0.0.1-py3-none-any.whl gdal --transport stdio
 docker build -t gdal-mcp .
 
 # Run with stdio transport (for MCP clients)
-docker run -i gdal --transport stdio
+docker run -i gdal-mcp gdal --transport stdio
 
 # Run with HTTP transport (for testing)
-docker run -p 8000:8000 gdal --transport http --port 8000
+docker run -p 8000:8000 gdal-mcp gdal --transport http --port 8000
 ```
 
 ### Method 3: Local Development with uv
@@ -50,17 +50,19 @@ uv run gdal --transport stdio
 
 ## Workspace Configuration
 
-**IMPORTANT:** GDAL MCP uses workspace scoping for security (ADR-0022). You must configure `GDAL_MCP_WORKSPACES` to allow file access.
+**Recommended:** Configure `GDAL_MCP_WORKSPACES` to restrict file access to approved directories (ADR-0022).
+If unset, the server allows all paths and logs a warning.
 
 ```bash
 # Set allowed workspace directories (colon-separated on Linux/macOS)
 export GDAL_MCP_WORKSPACES="/path/to/data:/another/path/to/rasters"
 
-# Windows (semicolon-separated)
-set GDAL_MCP_WORKSPACES="C:\data;C:\rasters"
+# Optional: constrain tool surface area
+export RASTER=true
+export VECTOR=true
 ```
 
-Without this configuration, the server will reject all file operations for security.
+See `docs/ENVIRONMENT_VARIABLES.md` for all runtime flags.
 
 ## Connecting to Claude Desktop
 
@@ -78,7 +80,7 @@ Without this configuration, the server will reject all file operations for secur
       "command": "uvx",
       "args": [
         "--from",
-        "gdal",
+        "gdal-mcp",
         "gdal",
         "--transport",
         "stdio"
@@ -194,10 +196,8 @@ Tool call:
 {
   "uri": "/data/dem.tif",
   "output": "/data/dem_webmercator.tif",
-  "params": {
-    "dst_crs": "EPSG:3857",
-    "resampling": "cubic"
-  }
+  "dst_crs": "EPSG:3857",
+  "resampling": "cubic"
 }
 ```
 
@@ -272,6 +272,17 @@ User: "For landsat.tif, show me statistics for bands 1-3 with histograms."
 AI uses:
 raster_stats with bands=[1,2,3], include_histogram=true
 Returns statistics and histograms for each band
+```
+
+### 4. Spatial Query + Result Resource
+
+```
+User: "Extract a DEM subset for this bbox and keep it in memory."
+
+AI uses:
+1. raster_query(uri, geometry=[minx, miny, maxx, maxy], purpose="local terrain analysis")
+2. receives query://result/{id}
+3. fetches query://result/{id} for metadata inspection
 ```
 
 ## Troubleshooting
