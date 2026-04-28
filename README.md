@@ -1,3 +1,5 @@
+[![MseeP.ai Security Assessment Badge](https://mseep.net/pr/wayfinder-foundry-gdal-mcp-badge.png)](https://mseep.ai/app/wayfinder-foundry-gdal-mcp)
+
 # GDAL MCP
 
 **Geospatial AI with epistemic reasoning**
