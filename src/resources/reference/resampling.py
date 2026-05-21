@@ -2,7 +2,7 @@
 
 from fastmcp import Context
 
-from src.app import mcp
+from src.server import mcp
 from src.shared.reference import list_resampling_methods, resampling_guide
 
 

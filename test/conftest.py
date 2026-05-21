@@ -9,8 +9,7 @@ import pytest
 import rasterio
 from rasterio.transform import from_origin
 
-from src.app import mcp
-from src.server import mcp as server_mcp
+from src.server import mcp, mcp as server_mcp
 
 
 @pytest.fixture(scope="session")

@@ -2,7 +2,7 @@
 
 from fastmcp.exceptions import ToolError
 
-from src.app import mcp
+from src.server import mcp
 from src.shared.query_registry import get_query_result
 
 

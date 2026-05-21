@@ -9,8 +9,8 @@ from rasterio.features import geometry_window
 from rasterio.io import MemoryFile
 from rasterio.windows import Window, from_bounds
 
-from src.app import mcp
 from src.config import resolve_path
+from src.server import mcp
 from src.shared.query_registry import register_query_result
 from src.shared.resourceref import ResourceRef
 

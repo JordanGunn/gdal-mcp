@@ -2,8 +2,8 @@
 
 from fastmcp import Context
 
-from src.app import mcp
 from src.config import resolve_path
+from src.server import mcp
 from src.shared.raster.info import Info, extract_raster_info
 
 

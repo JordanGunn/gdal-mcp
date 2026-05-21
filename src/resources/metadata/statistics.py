@@ -2,7 +2,7 @@
 
 from typing import Any
 
-from src.app import mcp
+from src.server import mcp
 from src.shared import raster
 
 

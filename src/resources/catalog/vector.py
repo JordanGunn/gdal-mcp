@@ -4,7 +4,7 @@ from collections.abc import Iterable
 
 from fastmcp import Context
 
-from src.app import mcp
+from src.server import mcp
 
 from .base import collect_entries
 

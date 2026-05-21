@@ -4,7 +4,7 @@ from typing import Any
 
 from fastmcp import Context
 
-from src.app import mcp
+from src.server import mcp
 from src.shared.raster.bands import band_metadata
 
 

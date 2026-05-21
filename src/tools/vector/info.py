@@ -11,8 +11,8 @@ except ImportError:
 from fastmcp import Context
 from fastmcp.exceptions import ToolError
 
-from src.app import mcp
 from src.config import resolve_path
+from src.server import mcp
 from src.shared import vector
 from src.shared.vector.info import Info
 

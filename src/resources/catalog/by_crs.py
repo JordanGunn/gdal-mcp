@@ -4,7 +4,7 @@ from typing import Literal
 
 from fastmcp import Context
 
-from src.app import mcp
+from src.server import mcp
 from src.shared.catalog import CatalogKind, filter_by_crs
 from src.shared.catalog.models import CatalogResponse
 

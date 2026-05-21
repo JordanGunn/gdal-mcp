@@ -6,8 +6,8 @@ from fastmcp.exceptions import ToolError
 from rasterio.enums import Resampling
 from rasterio.warp import calculate_default_transform, reproject as rio_reproject
 
-from src.app import mcp
 from src.config import resolve_path
+from src.server import mcp
 from src.shared.raster.reproject import Params, Result
 from src.shared.resourceref import ResourceRef
 

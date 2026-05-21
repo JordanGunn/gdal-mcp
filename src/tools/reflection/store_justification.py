@@ -4,9 +4,9 @@ import logging
 
 from fastmcp import Context
 
-from src.app import mcp
 from src.middleware.reflection_store import Justification, get_store
 from src.middleware.reflection_transform import compute_reflection_hash
+from src.server import mcp
 
 logger = logging.getLogger(__name__)
 

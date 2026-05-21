@@ -2,8 +2,8 @@
 
 from fastmcp import Context
 
-from src.app import mcp
 from src.config import resolve_path
+from src.server import mcp
 from src.shared.raster.stats import Band, Histogram, Params, Result, stats as extract_raster_stats
 
 

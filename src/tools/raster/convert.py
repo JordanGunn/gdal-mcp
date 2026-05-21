@@ -5,8 +5,8 @@ from fastmcp import Context
 from fastmcp.exceptions import ToolError
 from rasterio.enums import Resampling
 
-from src.app import mcp
 from src.config import resolve_path
+from src.server import mcp
 from src.shared.raster.convert import Options, Result
 from src.shared.resourceref import ResourceRef
 
