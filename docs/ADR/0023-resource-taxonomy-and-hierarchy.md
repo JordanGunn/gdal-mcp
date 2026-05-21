@@ -212,7 +212,7 @@ AI Reasoning:
 - [FastMCP Resources Guide](https://github.com/jlowin/fastmcp/blob/main/docs/servers/resources.mdx)
 - `docs/fastmcp/DECORATORS.md` - Decision guide for choosing decorators
 - `docs/fastmcp/RESOURCES.md` - Resource implementation guide (in progress)
-- `projectBrief.md` - Vision for agentic geospatial reasoning
+- `docs/VISION.md` - Vision for agentic geospatial reasoning
 
 ## Status
 
