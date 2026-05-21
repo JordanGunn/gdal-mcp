@@ -165,8 +165,7 @@ def validate_path(path: str, workspaces: list[Path] | None = None) -> Path:
         f"Allowed workspace directories:\n{workspace_list}\n\n"
         f"To allow this path, add its parent directory to GDAL_MCP_WORKSPACES:\n"
         f'  export GDAL_MCP_WORKSPACES="{":".join(str(w) for w in workspaces)}:'
-        f'{resolved.parent}"\n\n'
-        f"See docs/ADR/0022-workspace-scoping-and-access-control.md for details."
+        f'{resolved.parent}"'
     )
     raise ToolError(msg)
 

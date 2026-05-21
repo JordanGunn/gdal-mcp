@@ -61,8 +61,7 @@ Restart Claude Desktop. The MCP server indicator should appear, and the
 ### Workspace scoping
 
 `GDAL_MCP_WORKSPACES` is a colon-separated list of directories the server
-is allowed to touch (per [ADR-0022](docs/ADR/0022-workspace-scoping-and-access-control.md)).
-If unset, all paths are allowed and a warning is logged.
+is allowed to touch. If unset, all paths are allowed and a warning is logged.
 
 Optional tool-surface flags: `RASTER=true`, `VECTOR=true`. See
 [docs/ENVIRONMENT_VARIABLES.md](docs/ENVIRONMENT_VARIABLES.md) for the full set.
@@ -93,16 +92,16 @@ produces a structured justification. The flow is:
    on subsequent calls.
 
 See [docs/REFLECTION.md](docs/REFLECTION.md) for the schema and cache layout,
-and [docs/VISION.md](docs/VISION.md) for why this exists.
+and [docs/PHILOSOPHY.md](docs/PHILOSOPHY.md) for why this exists.
 
 ## Documentation
 
 - [TOOLS.md](TOOLS.md) — tool reference
 - [docs/ENVIRONMENT_VARIABLES.md](docs/ENVIRONMENT_VARIABLES.md) — runtime config
 - [docs/REFLECTION.md](docs/REFLECTION.md) — reflection middleware internals
-- [docs/VISION.md](docs/VISION.md) — long-term direction
-- [docs/ADR/](docs/ADR/) — architecture decision records
-- [CHANGELOG.md](CHANGELOG.md) — release history
+- [docs/PHILOSOPHY.md](docs/PHILOSOPHY.md) — design philosophy and direction
+- [docs/ROADMAP.md](docs/ROADMAP.md) — release history and direction
+- [CHANGELOG.md](CHANGELOG.md) — versioned changelog
 - [CONTRIBUTING.md](CONTRIBUTING.md) — contribution guide
 
 ## Troubleshooting

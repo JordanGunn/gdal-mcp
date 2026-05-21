@@ -107,9 +107,7 @@ def get_workspaces() -> list[Path]:
         '     {"mcpServers": {"gdal-mcp": {"env": {"GDAL_MCP_WORKSPACES": "/data:/home/gis"}}}}\n'
         "   \n"
         "   Or via shell:\n"
-        '     export GDAL_MCP_WORKSPACES="/data/projects:/home/user/gis"\n'
-        "   \n"
-        "   See docs/ADR/0022-workspace-scoping-and-access-control.md for details."
+        '     export GDAL_MCP_WORKSPACES="/data/projects:/home/user/gis"'
     )
     _workspaces_cache = []
     return []

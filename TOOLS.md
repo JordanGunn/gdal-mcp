@@ -598,5 +598,5 @@ The reflection system:
 
 - [README.md](README.md) - Project overview and installation
 - [CHANGELOG.md](CHANGELOG.md) - Release history
-- [docs/VISION.md](docs/VISION.md) - Long-term roadmap
-- [docs/ADR/](docs/ADR/) - Architecture decisions
+- [docs/PHILOSOPHY.md](docs/PHILOSOPHY.md) - Design philosophy and direction
+- [docs/REFLECTION.md](docs/REFLECTION.md) - Reflection middleware internals

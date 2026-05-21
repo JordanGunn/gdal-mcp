@@ -83,60 +83,14 @@ uv run gdal --help
 
 ## Before Implementing a Feature
 
-### **IMPORTANT: Review Architecture Decision Records (ADRs)**
+Read [docs/PHILOSOPHY.md](docs/PHILOSOPHY.md) and [docs/REFLECTION.md](docs/REFLECTION.md)
+first. They describe the design constraints — what the project is and isn't,
+and how the reflection middleware fits in. Most "should I add X?" questions
+resolve at that level.
 
-Before implementing any feature, **you MUST review relevant ADRs** in `docs/ADR/`. ADRs document critical architectural decisions and design patterns that guide the project.
-
-**Why ADRs Matter:**
-
-ADRs capture the **"why"** behind design decisions, not just the "what". They help you:
-- Understand constraints and trade-offs
-- Align with existing patterns
-- Avoid reinventing solutions to already-solved problems
-- Design for LLM interaction from the start
-
-**Example: Heavy Processing with Dask**
-
-Let's say you want to add a tool for computing raster statistics on a massive 50GB DEM. Before implementing, check:
-
-1. **ADR-0019** (Parallel Processing Strategy): Documents that we plan to use **Dask** for heavy processing tasks
-2. **ADR-0020** (Context-Driven Tools): Explains how tools should provide real-time progress feedback to LLMs
-3. **ADR-0021** (LLM-Optimized Descriptions): Shows how to write tool descriptions for AI interaction
-
-**Why Dask?**
-- **Chunked processing**: Process data in manageable pieces
-- **Progress feedback**: Report progress to LLM in real-time (crucial for chat UX)
-- **Memory efficiency**: Avoid loading entire 50GB file into RAM
-- **Out-of-core**: Handle datasets larger than available memory
-
-**What This Looks Like:**
-
-```python
-# DON'T: Load entire raster (crashes on large files)
-data = rasterio.open('massive.tif').read()
-mean = data.mean()
-
-# DO: Use Dask for chunked processing with progress
-import dask.array as da
-from src.context import report_progress
-
-with rasterio.open('massive.tif') as src:
-    data = da.from_array(src.read(1), chunks=(1024, 1024))
-    
-    # Process in chunks with progress reporting
-    for i, chunk in enumerate(data.blocks):
-        partial_mean = chunk.mean().compute()
-        report_progress(f"Processed chunk {i+1}/{data.nblocks}")
-    
-    final_mean = data.mean().compute()
-```
-
-**Key Point:** This design aligns with **chat client interaction expectations**. When a user asks "What's the mean elevation?", they expect:
-- Real-time progress updates ("Processing chunk 1/100...")
-- Not a 30-second frozen UI
-- Graceful handling of memory constraints
-
-**Always check ADRs first** to ensure your implementation aligns with these patterns!
+For non-trivial design decisions, raise an issue or draft PR with the
+proposed approach before doing the work; that's quicker than discovering
+the rework you needed after the fact.
 
 ---
 
@@ -154,7 +108,6 @@ Follow these guidelines:
 - **Style**: PEP 8 compliance (enforced by ruff)
 - **Type hints**: Required for all function signatures
 - **Tests**: Write tests for new functionality
-- **ADRs**: Check relevant ADRs before designing
 
 ### 3. Run Quality Gates
 
@@ -191,14 +144,7 @@ git push origin feat-your-feature-name
 
 New tools should follow established patterns:
 
-### 1. Check ADRs First
-
-- **ADR-0017**: Pydantic models for structured outputs
-- **ADR-0020**: Context support for real-time feedback
-- **ADR-0021**: LLM-optimized tool descriptions
-- **ADR-0022**: Workspace scoping and security
-
-### 2. Create Tool Module
+### 1. Create Tool Module
 
 Place in `src/tools/raster/` or `src/tools/vector/`:
 
@@ -225,7 +171,7 @@ async def _your_tool(
     pass
 ```
 
-### 3. Create Pydantic Models
+### 2. Create Pydantic Models
 
 Place in `src/models/raster/` or `src/models/vector/`:
 
@@ -243,7 +189,7 @@ class YourResult(BaseModel):
     output2: float
 ```
 
-### 4. Write Tests
+### 3. Write Tests
 
 Place in `test/`:
 
@@ -257,11 +203,12 @@ async def test_your_tool(sample_raster):
     assert result.output1 is not None
 ```
 
-### 5. Update Documentation
+### 4. Update Documentation
 
 - Add tool to `src/prompts.py` if user-facing
 - Update `CHANGELOG.md` under `[Unreleased]`
-- Consider adding ADR if it introduces new patterns
+- If the change is significant, mention it in the relevant section of
+  TOOLS.md and/or docs/PHILOSOPHY.md.
 
 ---
 
@@ -300,10 +247,9 @@ GitHub Actions runs tests on:
 All pull requests require:
 
 1. **Passing CI**: All quality gates and tests must pass
-2. **ADR compliance**: Changes align with architectural decisions
-3. **Test coverage**: New code has corresponding tests
-4. **Documentation**: Changes reflected in CHANGELOG, README, etc.
-5. **Maintainer approval**: At least one maintainer review
+2. **Test coverage**: New code has corresponding tests
+3. **Documentation**: Changes reflected in CHANGELOG, README, etc.
+4. **Maintainer approval**: At least one maintainer review
 
 Maintainers will review for:
 - Code quality and style
@@ -332,32 +278,6 @@ Include:
 - **Current limitations**: Why existing tools don't work
 - **Proposed solution**: How you envision it working
 - **LLM interaction**: How a user would ask for this in natural language
-
----
-
-## Architecture Decision Records (ADRs)
-
-When making significant architectural decisions, create an ADR:
-
-```bash
-# Create new ADR
-cp docs/ADR/template.md docs/ADR/00XX-your-decision.md
-```
-
-ADRs should document:
-- **Context**: What problem does this solve?
-- **Decision**: What did we decide?
-- **Rationale**: Why this approach over alternatives?
-- **Consequences**: Trade-offs and implications
-- **Examples**: Code samples showing usage
-
-**Key ADRs to Review:**
-- **ADR-0001**: FastMCP foundation
-- **ADR-0017**: Pydantic models for structured outputs
-- **ADR-0019**: Parallel processing strategy (Dask)
-- **ADR-0020**: Context-driven tools (real-time feedback)
-- **ADR-0021**: LLM-optimized descriptions
-- **ADR-0022**: Workspace scoping and security
 
 ---
 

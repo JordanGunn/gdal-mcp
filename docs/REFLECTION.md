@@ -488,7 +488,7 @@ mv .preflight/justifications.backup .preflight/justifications
    - Each step can reference previous justifications
 
 4. **Test cache behavior** — Verify hit/miss logic
-   - See [test/REFLECTION_TESTING.md](../test/REFLECTION_TESTING.md)
+   - See `test/test_reflection_*.py` for the existing coverage
    - Test same parameters, different parameters, partial changes
 
 ## Performance Considerations
@@ -564,6 +564,5 @@ Middleware **prevents** execution without justification. AI cannot bypass by:
 ---
 
 **See also:**
-- [test/REFLECTION_TESTING.md](../test/REFLECTION_TESTING.md) — Comprehensive testing guide
-- [docs/ADR/0026-prompting-and-epistemic-governance.md](ADR/0026-prompting-and-epistemic-governance.md) — Design rationale
-- [README.md](../README.md#-reflection-system-v100) — User-facing overview
+- [docs/PHILOSOPHY.md](PHILOSOPHY.md) — design rationale
+- [README.md](../README.md#the-reflection-middleware) — user-facing overview

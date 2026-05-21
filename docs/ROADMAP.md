@@ -200,6 +200,6 @@ tags: [gdal, mcp, roadmap, planning]
 
 ---
 
-**Status:** v1.0.0 released, v1.1.0 in planning
+**Status:** v1.1.3 released.
 
-See [README.md](../README.md) for current capabilities and [test/REFLECTION_TESTING.md](../test/REFLECTION_TESTING.md) for testing guide.
+See [README.md](../README.md) for current capabilities.
