@@ -200,6 +200,6 @@ tags: [gdal, mcp, roadmap, planning]
 
 ---
 
-**Status:** v1.1.3 released.
+**Status:** v1.2.0 released (cleanup release on top of v1.1.3).
 
-See [README.md](../README.md) for current capabilities.
+See [README.md](../README.md) for current capabilities and [CHANGELOG.md](../../CHANGELOG.md) for the full release history.

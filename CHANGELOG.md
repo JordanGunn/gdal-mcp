@@ -7,43 +7,107 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
-### Added
+## [1.2.0] - 2026-05-21
 
-- Spatial query primitives (Phase 3a):
-  - `raster_query` for raster window extraction by bbox/geometry
-  - `vector_query` for vector subsetting by bbox/geometry with optional `where`/`attributes`
-  - `query://result/{id}` resource for query result metadata lookup
-- `spatial_query` reflection domain and `justify_query_extent` prompt integration.
-- In-memory query result registry with configurable TTL and max-result caps:
-  - `GDAL_MCP_QUERY_TTL_SECONDS`
-  - `GDAL_MCP_QUERY_MAX_RESULTS`
-- Environment variable documentation in `docs/ENVIRONMENT_VARIABLES.md`.
+Internal cleanup release. No new tool functionality; some surface area was
+intentionally removed (see Removed). Run `git log v1.1.3..v1.2.0` for the
+full per-commit story.
 
 ### Changed
 
-- Server registration now respects runtime flags for tool/resource surface control:
-  - `RASTER` to enable/disable raster tools/resources
-  - `VECTOR` to enable/disable vector tools/resources
-- Tooling/docs updated to reflect query features:
-  - `README.md` updated tool summary and env-var docs link
-  - `TOOLS.md` updated with `raster_query` and `vector_query` references
+- **Architecture flattened.** `src/models/` collapsed into `src/shared/` so
+  Pydantic schemas live beside the extractor functions that return them.
+  Tool / resource call paths now have one fewer indirection layer; the
+  observable MCP tool surface is unchanged.
+- **Single-module bootstrap.** `src/app.py` merged into `src/server.py`;
+  `__main__.py` imports `server` directly. Tool / resource modules now
+  `from src.server import mcp` instead of `from src.app import mcp`.
+- **Reflection middleware pinned to FastMCP 2.x API.** Removed the legacy
+  `context.request.params` fallback path; the middleware now reads tool
+  name and arguments only from `context.message.*`.
+- **`conint(ge=0)` replaced with `int = Field(ge=0, ...)`** in catalog
+  models — same runtime validation, idiomatic Pydantic v2, mypy-clean.
+
+### Removed
+
+- **Two MCP prompts that were registered but unused.** No tool's
+  `TOOL_REFLECTIONS` entry referenced either domain, so these prompts
+  could only be invoked manually by an agent that knew their names:
+  - `justify_hydrology_conditioning` (domain `hydrology`)
+  - `justify_aggregation_strategy` (domain `aggregation`)
+  If you depended on either of these, it is the breaking change in this
+  release; otherwise this is invisible to clients.
+- Dead source modules: `src/middleware/prompt_storage.py` (self-documented
+  as unused), `src/prompts/risk.py` + `test/test_risk.py` (orphaned risk
+  classifier referenced only by its own test).
+- Stale tracked config: `.mcp-config.example.json` (superseded by
+  `fastmcp.json` and the Claude Desktop example in README).
+- Inline `# Per ADR-NNNN` comments throughout the tool layer (all of
+  them just restated what the next line of code did, and pointed at
+  ADRs that have been retired — see Documentation).
+
+### Documentation
+
+- README rewritten as a single ~120-line install + usage doc; QUICKSTART
+  merged in and deleted. Marketing voice removed.
+- `docs/VISION.md` and `docs/PHILOSOPHY.md` merged into a tighter
+  `docs/PHILOSOPHY.md` (~110 lines, down from 780).
+- `docs/ADR/` directory retired in full. Decision history remains
+  accessible via `git log` and earlier release tags; the ADR format
+  was creating maintenance overhead without a corresponding readership.
+- Aspirational design docs deleted: `docs/design/{MCP,EDUCATIONAL,
+  COMPLIANCE,PERFORMANCE,DISTRIBUTION,TESTING,OVERVIEW,STRUCTURE}.md`,
+  `docs/design/epistemology/*`, `docs/styleguide/*`, and the FastMCP
+  upstream-duplicate tutorials in `docs/fastmcp/{DECORATORS,PROMPTS,
+  RESOURCES,GUIDELINES}.md`. `docs/design/ARCHITECTURE.md` and
+  `docs/fastmcp/CONTEXT.md` are kept as the project-specific survivors.
+- `AGENTS.md` moved to `docs/internal/AGENTS.md`.
+- `projectBrief.md` deleted (duplicated `docs/PHILOSOPHY.md`).
+- Total markdown surface: ~13,700 → ~3,100 lines.
 
 ### Fixed
 
-- Reflection preflight now recognizes query reflection prompt hashing (`justify_query_extent`).
-- `store_justification` documentation now includes `spatial_query` as a valid domain.
+- Pre-commit hook pins bumped to match what CI actually runs (ruff
+  v0.6.9 → v0.13.0, mypy v1.10.0 → v1.18.1). The old ruff pin still
+  enforced `ANN101`, which was removed from ruff in 0.7+, producing
+  27 false-positive hook failures on otherwise-passing code.
+- `test_raster_tools.py`: `Params(resolution=(0.5, 0.5))` → `[0.5, 0.5]`
+  to match the declared `list[float]` type (revealed by the newer mypy).
 
-## [1.1.3] - 2026-02-01
-
-### Fixed
-
-- **Server startup**: Prevented NameError during tool/resource registration by eagerly evaluating type annotations in MCP modules.
-- **Raster band stats**: Switched to `stats()` with safe fallback handling to avoid Rasterio deprecation warnings.
+## [1.1.3] - 2026-01-31
 
 ### Added
 
-- **Regression coverage**: Tests to ensure resource/tool annotations are evaluated (guards against missing typing imports).
-- **CI**: CLI smoke test via `gdal --help` in the test workflow.
+- **Spatial query primitives**:
+  - `raster_query` for raster window extraction by bbox/geometry
+  - `vector_query` for vector subsetting by bbox/geometry with optional
+    `where` / `attributes` filters
+  - `query://result/{id}` resource for query result metadata lookup
+- `spatial_query` reflection domain and `justify_query_extent` prompt
+  integration.
+- In-memory query result registry with configurable TTL and max-result
+  caps: `GDAL_MCP_QUERY_TTL_SECONDS`, `GDAL_MCP_QUERY_MAX_RESULTS`.
+- Environment variable documentation in `docs/ENVIRONMENT_VARIABLES.md`.
+- Regression tests ensuring resource / tool annotations are evaluated
+  (guards against missing typing imports).
+- CI: CLI smoke test via `gdal --help` in the test workflow.
+
+### Changed
+
+- Server registration now respects runtime flags for tool/resource
+  surface control: `RASTER`, `VECTOR` to enable/disable raster or vector
+  tools and their single-domain resources.
+
+### Fixed
+
+- **Server startup**: prevented `NameError` during tool/resource
+  registration by eagerly evaluating type annotations in MCP modules.
+- **Raster band stats**: switched to `stats()` with safe fallback
+  handling to avoid Rasterio deprecation warnings.
+- Reflection preflight now recognises the query reflection prompt
+  hashing (`justify_query_extent`).
+- `store_justification` documentation includes `spatial_query` as a
+  valid domain.
 
 ## [1.1.2] - 2025-10-27
 
