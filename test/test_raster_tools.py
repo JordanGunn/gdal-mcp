@@ -132,7 +132,7 @@ async def test_raster_reproject_with_resolution(tiny_raster_gtiff: Path, test_da
     params = ReprojectParams(
         dst_crs="EPSG:4326",
         resampling="bilinear",
-        resolution=(0.5, 0.5),  # Half-degree pixels
+        resolution=[0.5, 0.5],  # Half-degree pixels
     )
 
     result = await _reproject(
