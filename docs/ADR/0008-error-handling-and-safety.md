@@ -6,7 +6,7 @@ Error handling, masking, and tool safety annotations
 
 ## Status
 
-Proposed
+Implemented
 
 ## Context
 

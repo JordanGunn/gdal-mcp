@@ -3,7 +3,7 @@ type: decision
 id: ADR-0003
 title: Distribution via uvx and Docker
 tags: [adr, distribution, uvx, docker]
-status: accepted
+status: implemented
  date: 2025-09-17
 ---
 
@@ -25,7 +25,7 @@ We want one-line local execution and a reproducible container image with GDAL.
 
 ## Status
 
-Accepted for Phase 1.
+Implemented
 
 ## Links
 

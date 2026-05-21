@@ -1,6 +1,6 @@
 # ADR-0020: Context-Driven Tool Design for MCP
 
-**Status**: Accepted  
+**Status:** Implemented
 **Date**: 2025-09-30  
 **Deciders**: Jordan Godau  
 **Tags**: #mcp #fastmcp #context #ux #logging

@@ -6,7 +6,7 @@ Return structured outputs with schemas by default
 
 ## Status
 
-Proposed
+Implemented
 
 ## Context
 

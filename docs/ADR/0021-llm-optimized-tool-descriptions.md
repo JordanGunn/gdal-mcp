@@ -1,6 +1,6 @@
 # ADR-0021: LLM-Optimized Tool Descriptions and Metadata
 
-**Status**: Accepted
+**Status:** Implemented
 
 **Date**: 2025-09-30 
 

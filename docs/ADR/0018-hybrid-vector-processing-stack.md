@@ -1,6 +1,6 @@
 # ADR-0018: Hybrid Vector Processing Stack (pyogrio + geopandas)
 
-**Status**: Accepted  
+**Status:** Implemented
 **Date**: 2025-09-30  
 **Deciders**: Jordan Godau  
 **Tags**: #vector #geopandas #pyogrio #architecture

@@ -6,7 +6,7 @@ MVP scope: core tools & primitives for GDAL MCP
 
 ## Status
 
-Proposed
+Implemented
 
 ## Context
 

@@ -6,7 +6,7 @@ Resource strategy (vsimem vs filesystem) & binary payloads
 
 ## Status
 
-Proposed
+Implemented
 
 ## Context
 

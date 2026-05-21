@@ -6,7 +6,7 @@ Transport & deployment strategy
 
 ## Status
 
-Proposed
+Superseded by ADR-0002 and ADR-0003
 
 ## Context
 

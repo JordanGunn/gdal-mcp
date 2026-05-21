@@ -1,6 +1,6 @@
 # ADR-0019: Parallel Processing Strategy for Large Geospatial Datasets
 
-**Status**: Proposed (Future Implementation)  
+**Status:** Proposed
 **Date**: 2025-09-30  
 **Deciders**: Jordan Godau  
 **Tags**: #performance #dask #rioxarray #scalability #future

@@ -6,7 +6,7 @@ Distribution: local `uvx` and remote container
 
 ## Status
 
-Proposed
+Superseded by ADR-0003
 
 ## Context
 

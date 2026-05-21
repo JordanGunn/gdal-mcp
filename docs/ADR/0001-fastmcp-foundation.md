@@ -3,7 +3,7 @@ type: decision
 id: ADR-0001
 title: FastMCP foundation for GDAL MCP (Python)
 tags: [adr, fastmcp, python, mcp, server]
-status: accepted
+status: implemented
  date: 2025-09-17
 ---
 
@@ -26,7 +26,7 @@ We need a compliant MCP server to expose GDAL capabilities. Python offers mature
 
 ## Status
 
-Accepted for Phase 1.
+Implemented
 
 ## Links
 

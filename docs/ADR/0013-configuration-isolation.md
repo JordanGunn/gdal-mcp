@@ -6,7 +6,7 @@ Per-request GDAL configuration isolation
 
 ## Status
 
-Proposed
+Implemented
 
 ## Context
 

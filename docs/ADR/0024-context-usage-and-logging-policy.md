@@ -1,5 +1,5 @@
 ---
-status: accepted
+status: implemented
 date: 2025-10-10
 decision-makers: [jgodau, cascade-ai]
 tags: [context, logging, fastmcp, architecture]
@@ -83,4 +83,4 @@ Adopt the following policy for `Context` usage and logging:
 
 ## Status
 
-Accepted — 2025-10-10
+Implemented

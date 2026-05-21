@@ -1,5 +1,5 @@
 ---
-status: proposed
+status: implemented
 date: 2025-10-10
 decision-makers: [jgodau, cascade-ai]
 tags: [catalog, resources, fastmcp, architecture]
@@ -60,4 +60,4 @@ Introduce a catalog resource suite backed by a shared scanner module:
 
 ## Status
 
-Proposed — implementation in progress.
+Implemented

@@ -6,7 +6,7 @@ Observability: structured logging & progress
 
 ## Status
 
-Proposed
+Implemented
 
 ## Context
 

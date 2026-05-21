@@ -1,6 +1,6 @@
 # ADR-0022: Workspace Scoping and Access Control
 
-**Status**: Accepted  
+**Status:** Implemented
 **Date**: 2025-09-30  
 **Deciders**: Jordan Godau  
 **Tags**: #security #access-control #mcp #workspaces

@@ -1,5 +1,5 @@
 ---
-status: proposed
+status: implemented
 date: 2025-10-19
 updated: 2025-10-22
 decision-makers: [jgodau, cascade-ai]
@@ -208,7 +208,7 @@ This aligns better with the core principle: "hold the agent accountable" for rea
 
 ## Status
 
-Implemented (v1.0.0) — Amendment in progress (v1.1.0)
+Implemented
 
 ## References
 

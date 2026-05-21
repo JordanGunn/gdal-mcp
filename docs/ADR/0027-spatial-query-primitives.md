@@ -1,6 +1,6 @@
 # ADR-0027: Conversational Spatial Query Layer
 
-**Status:** Proposed  
+**Status:** Implemented
 **Date:** 2025-10-27  
 **Deciders:** Core Team  
 **Related:** ADR-0017 (Python-native), ADR-0026 (Reflection System)

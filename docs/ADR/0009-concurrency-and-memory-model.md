@@ -6,7 +6,7 @@ Concurrency, memory, and dataset lifecycle
 
 ## Status
 
-Proposed
+Implemented
 
 ## Context
 

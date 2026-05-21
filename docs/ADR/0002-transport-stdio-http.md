@@ -3,7 +3,7 @@ type: decision
 id: ADR-0002
 title: Transport strategy (stdio first, optional HTTP)
 tags: [adr, transport, stdio, http, mcp]
-status: accepted
+status: implemented
  date: 2025-09-17
 ---
 
@@ -25,7 +25,7 @@ MCP supports stdio (local) and HTTP (remote). Stdio is simpler and fastest for l
 
 ## Status
 
-Accepted for Phase 1.
+Implemented
 
 ## Links
 

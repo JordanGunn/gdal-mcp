@@ -6,7 +6,7 @@ Adopt FastMCP and a Python-native GDAL stack (rasterio + pyogrio/fiona + pyproj)
 
 ## Status
 
-Proposed
+Implemented
 
 ## Context
 

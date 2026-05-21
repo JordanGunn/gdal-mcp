@@ -6,7 +6,7 @@ Testing and fixtures
 
 ## Status
 
-Proposed
+Implemented
 
 ## Context
 

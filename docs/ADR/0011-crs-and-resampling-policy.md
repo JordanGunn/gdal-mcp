@@ -6,7 +6,7 @@ CRS normalization and explicit resampling
 
 ## Status
 
-Proposed
+Implemented
 
 ## Context
 
