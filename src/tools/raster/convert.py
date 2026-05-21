@@ -46,7 +46,6 @@ async def _convert(
             f"compression={options.compression}, tiled={options.tiled}"
         )
 
-    # Per ADR-0013: wrap in rasterio.Env for per-request config isolation
     try:
         with rasterio.Env():
             # Open source dataset
@@ -142,7 +141,6 @@ async def _convert(
                 await ctx.report_progress(100, 100)
                 await ctx.info(f"✓ Conversion complete: {output} ({size_bytes:,} bytes)")
 
-            # Build ResourceRef per ADR-0012
             resource_ref = ResourceRef(
                 uri=output_path.as_uri(),
                 path=str(output_path.absolute()),
@@ -154,7 +152,6 @@ async def _convert(
                 },
             )
 
-            # Return ConversionResult per ADR-0017
             return Result(
                 output=resource_ref,
                 driver=options.driver,

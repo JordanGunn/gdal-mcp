@@ -40,7 +40,6 @@ async def _reproject(
         await ctx.info("📂 Opening source raster: " + uri_path)
         await ctx.debug("Target CRS: " + params.dst_crs + ", Resampling: " + params.resampling)
 
-    # Per ADR-0013: wrap in rasterio.Env for per-request config isolation
     try:
         with rasterio.Env():
             with rasterio.open(uri_path) as src:
@@ -204,7 +203,6 @@ async def _reproject(
                     + " bytes)"
                 )
 
-            # Build ResourceRef per ADR-0012
             resource_ref = ResourceRef(
                 uri=output_path.as_uri(),
                 path=str(output_path.absolute()),
@@ -217,7 +215,6 @@ async def _reproject(
                 },
             )
 
-            # Return ReprojectionResult per ADR-0017
             return Result(
                 output=resource_ref,
                 src_crs=str(src_crs),
@@ -275,7 +272,7 @@ async def _reproject(
     name="raster_reproject",
     description=(
         "Reproject raster to new coordinate reference system with explicit resampling "
-        "method (ADR-0011 requirement). "
+        "method (required). "
         "USE WHEN: Coordinate system doesn't match target projection OR "
         "data needs different spatial reference for analysis, overlay, or web serving. "
         "Common scenarios: convert lat/lon (EPSG:4326) to Web Mercator (EPSG:3857) for web maps, "
@@ -293,7 +290,7 @@ async def _reproject(
         "src_crs used, dst_crs, resampling method, output transform (6-element affine), "
         "width/height in pixels, and bounds in destination CRS. "
         "SIDE EFFECTS: Creates new file at output path. "
-        "NOTE: Resampling method is REQUIRED per ADR-0011 to prevent unintentional data "
+        "NOTE: Resampling method is REQUIRED to prevent unintentional data "
         "corruption (no defaults). Choose carefully: nearest preserves exact values but creates "
         "blocky appearance, bilinear/cubic create smooth output but may introduce new values."
     ),

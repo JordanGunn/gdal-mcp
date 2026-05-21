@@ -13,21 +13,19 @@ from typing import Any
 from fastmcp.exceptions import ToolError
 
 from src.middleware.reflection_store import get_store
-from src.prompts import aggregation, crs, hydrology, resampling, spatial_query
+from src.prompts import crs, resampling, spatial_query
 from src.prompts.justification import Justification
 
 logger = logging.getLogger(__name__)
 
 MAX_REFLECTION_BYTES = 32 * 1024  # 32 KiB safety cap
-ALLOWED_DOMAINS = {"crs_datum", "resampling", "hydrology", "aggregation", "spatial_query"}
+ALLOWED_DOMAINS = {"crs_datum", "resampling", "spatial_query"}
 _TRANSIENT_ARG_TOKENS = ("path", "timestamp", "time", "tmp", "temp", "uuid", "nonce", "session")
 
 
 _PROMPT_SOURCE_FETCHERS: dict[str, Callable[[], str]] = {
     "justify_crs_selection": lambda: inspect.getsource(crs.register),
     "justify_resampling_method": lambda: inspect.getsource(resampling.register),
-    "justify_hydrology_conditioning": lambda: inspect.getsource(hydrology.register),
-    "justify_aggregation_strategy": lambda: inspect.getsource(aggregation.register),
     "justify_query_extent": lambda: inspect.getsource(spatial_query.register),
 }
 

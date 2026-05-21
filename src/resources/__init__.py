@@ -1,6 +1,6 @@
 """MCP Resources for GDAL operations.
 
-Resources provide read-only information per ADR-0023:
+Resources provide read-only information:
 - metadata://  File properties and statistics
 - catalog://   Workspace discovery
 - reference:// System capabilities (formats, CRS, compression, glossary)

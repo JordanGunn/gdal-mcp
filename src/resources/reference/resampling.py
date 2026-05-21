@@ -37,7 +37,7 @@ def list_resampling_methods_resource(
     description=(
         "Expert guidance for choosing appropriate resampling methods based on data type and "
         "use case. Explains trade-offs between interpolation quality, performance, and data "
-        "integrity. Critical for raster_reproject operations per ADR-0011 requirement. "
+        "integrity. Critical for raster_reproject operations. "
         "Covers: nearest (categorical/discrete data, preserves exact values), bilinear "
         "(continuous data, smooth results), cubic (elevation/scientific, highest quality), "
         "average (downsampling), mode (categorical downsampling). Filter by method name or 'all'."

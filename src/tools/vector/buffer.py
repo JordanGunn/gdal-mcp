@@ -39,7 +39,6 @@ async def _buffer(
         await ctx.debug(f"Buffer distance: {params.distance}, resolution: {params.resolution}")
         await ctx.report_progress(0, 100)
 
-    # Per ADR-0013: Delegate to shared logic
     try:
         if ctx:
             await ctx.info("🎯 Creating buffers...")
@@ -74,7 +73,6 @@ async def _buffer(
                 f"({result_data['feature_count']} features, {size_bytes} bytes)"
             )
 
-        # Build ResourceRef per ADR-0012
         resource_ref = ResourceRef(
             uri=output_path.as_uri(),
             path=str(output_path.absolute()),

@@ -30,7 +30,7 @@ class Params(BaseModel):
     )
     resampling: ResamplingMethod = Field(
         description=(
-            "Resampling method (per ADR-0011: explicit required). "
+            "Resampling method (explicit; required). "
             "Options: nearest (categorical data), bilinear (continuous data), "
             "cubic (smooth continuous data), cubic_spline, lanczos, average, mode, gauss"
         ),

@@ -45,7 +45,6 @@ async def _clip(
             await ctx.debug(f"Clipping by mask: {mask_path}")
         await ctx.report_progress(0, 100)
 
-    # Per ADR-0013: Delegate to shared logic
     try:
         if ctx:
             await ctx.info("✂️ Clipping features...")
@@ -73,7 +72,6 @@ async def _clip(
                 f"({result_data['feature_count']} features retained, {size_bytes} bytes)"
             )
 
-        # Build ResourceRef per ADR-0012
         resource_ref = ResourceRef(
             uri=output_path.as_uri(),
             path=str(output_path.absolute()),

@@ -41,7 +41,6 @@ async def _reproject(
             await ctx.debug(f"Source CRS override: {params.src_crs}")
         await ctx.report_progress(0, 100)
 
-    # Per ADR-0013: Delegate to shared logic (pyogrio handles its own context isolation)
     try:
         if ctx:
             await ctx.info("🔄 Reprojecting features...")
@@ -69,7 +68,6 @@ async def _reproject(
                 f"({result_data['feature_count']} features, {size_bytes} bytes)"
             )
 
-        # Build ResourceRef per ADR-0012
         resource_ref = ResourceRef(
             uri=output_path.as_uri(),
             path=str(output_path.absolute()),
@@ -82,7 +80,6 @@ async def _reproject(
             },
         )
 
-        # Return ReprojectionResult per ADR-0017
         return Result(
             output=resource_ref,
             src_crs=result_data["src_crs"],
