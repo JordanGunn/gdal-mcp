@@ -12,7 +12,7 @@ from typing import Any, Literal
 from fastmcp import Context
 
 from src.config import get_workspaces
-from src.models.resourceref import ResourceRef
+from src.shared.resourceref import ResourceRef
 
 CatalogKind = Literal["all", "raster", "vector"]
 

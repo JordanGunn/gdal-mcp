@@ -6,7 +6,7 @@ from typing import Literal
 
 from pydantic import BaseModel, ConfigDict, Field
 
-from src.models.resourceref import ResourceRef
+from src.shared.resourceref import ResourceRef
 
 # Define resampling methods as a literal type for better MCP serialization
 ResamplingMethod = Literal[

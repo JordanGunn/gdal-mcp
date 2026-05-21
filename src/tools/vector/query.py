@@ -9,8 +9,8 @@ from shapely.geometry import shape
 
 from src.app import mcp
 from src.config import resolve_path
-from src.models.resourceref import ResourceRef
 from src.shared.query_registry import register_query_result
+from src.shared.resourceref import ResourceRef
 
 BBOX_COORD_COUNT = 4
 

@@ -8,6 +8,9 @@ from typing import Any
 import pyogrio
 from fastmcp import Context
 from fastmcp.exceptions import ToolError
+from pydantic import BaseModel, ConfigDict, Field
+
+from src.shared.resourceref import ResourceRef
 
 
 def convert(
@@ -115,3 +118,33 @@ def convert(
             ) from e
         else:
             raise ToolError(f"Vector format conversion failed: {e}") from e
+
+
+class Params(BaseModel):
+    """Parameters for vector format conversion."""
+
+    driver: str | None = Field(
+        None,
+        description="Output driver (auto-detected from extension if None). "
+        "Options: 'ESRI Shapefile', 'GPKG', 'GeoJSON', 'KML', 'GML'",
+    )
+    encoding: str = Field(
+        "UTF-8",
+        description="Character encoding for output (UTF-8 recommended, "
+        "ISO-8859-1 for legacy shapefile compatibility)",
+    )
+
+    model_config = ConfigDict()
+
+
+class Result(BaseModel):
+    """Result of a vector format conversion operation."""
+
+    output: ResourceRef = Field(description="Reference to the output vector file")
+    src_driver: str = Field(description="Source driver detected")
+    dst_driver: str = Field(description="Destination driver used")
+    feature_count: int = Field(ge=0, description="Number of features converted")
+    geometry_type: str | None = Field(
+        None, description="Primary geometry type (Point, LineString, Polygon, etc.)"
+    )
+    encoding: str = Field(description="Character encoding used")

@@ -4,7 +4,7 @@ from __future__ import annotations
 
 from typing import Any, Literal
 
-from pydantic import BaseModel, Field, conint
+from pydantic import BaseModel, Field
 
 
 class CatalogResponse(BaseModel):
@@ -18,6 +18,7 @@ class CatalogResponse(BaseModel):
         default_factory=list,
         description="List of catalogued workspace entries.",
     )
-    total: conint(ge=0) = Field(
+    total: int = Field(
+        ge=0,
         description="Total number of entries included in this response.",
     )

@@ -5,8 +5,8 @@ from typing import Literal
 
 from fastmcp import Context
 
-from src.models.catalog import CatalogResponse
 from src.shared.catalog import scan
+from src.shared.catalog.models import CatalogResponse
 
 
 def collect_entries(

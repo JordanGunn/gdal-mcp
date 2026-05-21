@@ -5,9 +5,9 @@ from fastmcp.exceptions import ToolError
 
 from src.app import mcp
 from src.config import resolve_path
-from src.models.resourceref import ResourceRef
-from src.models.vector.reproject import Params, Result
 from src.shared import vector
+from src.shared.resourceref import ResourceRef
+from src.shared.vector.reproject import Params, Result
 
 
 async def _reproject(

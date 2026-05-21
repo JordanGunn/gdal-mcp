@@ -5,8 +5,8 @@ from typing import Literal
 from fastmcp import Context
 
 from src.app import mcp
-from src.models.catalog import CatalogResponse
 from src.shared.catalog import CatalogKind, filter_by_crs
+from src.shared.catalog.models import CatalogResponse
 
 
 @mcp.resource("catalog://workspace/by-crs/{epsg}{?kind,include_hidden}")

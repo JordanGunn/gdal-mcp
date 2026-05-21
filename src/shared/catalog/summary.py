@@ -9,14 +9,14 @@ from pathlib import Path
 from fastmcp import Context
 
 from src.config import get_workspaces
-from src.models.workspace_summary import (
+from src.shared.catalog import scan
+from src.shared.catalog.workspace_summary import (
     CRSDistribution,
     DatasetCount,
     FormatDistribution,
     SizeStatistics,
     WorkspaceSummary,
 )
-from src.shared.catalog import scan
 from src.shared.metadata.format_detection import read_format_metadata
 
 BYTE = 1024

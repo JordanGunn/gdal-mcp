@@ -6,9 +6,9 @@ from pathlib import Path
 
 import pytest
 
-from src.models.raster.convert import Options as ConvertOptions
-from src.models.raster.reproject import Params as ReprojectParams
-from src.models.raster.stats import Params as StatsParams
+from src.shared.raster.convert import Options as ConvertOptions
+from src.shared.raster.reproject import Params as ReprojectParams
+from src.shared.raster.stats import Params as StatsParams
 from src.tools.raster.convert import _convert
 
 # Import the core logic functions (not the @mcp.tool wrapped versions)

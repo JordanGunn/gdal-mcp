@@ -13,8 +13,8 @@ from fastmcp.exceptions import ToolError
 
 from src.app import mcp
 from src.config import resolve_path
-from src.models.vector.info import Info
 from src.shared import vector
+from src.shared.vector.info import Info
 
 
 async def _info(

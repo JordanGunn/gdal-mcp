@@ -4,8 +4,7 @@ from fastmcp import Context
 
 from src.app import mcp
 from src.config import resolve_path
-from src.models.raster.info import Info
-from src.shared.raster.info import extract_raster_info
+from src.shared.raster.info import Info, extract_raster_info
 
 
 async def _info(

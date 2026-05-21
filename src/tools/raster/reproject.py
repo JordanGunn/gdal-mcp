@@ -8,8 +8,8 @@ from rasterio.warp import calculate_default_transform, reproject as rio_reprojec
 
 from src.app import mcp
 from src.config import resolve_path
-from src.models.raster.reproject import Params, Result
-from src.models.resourceref import ResourceRef
+from src.shared.raster.reproject import Params, Result
+from src.shared.resourceref import ResourceRef
 
 
 async def _reproject(

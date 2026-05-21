@@ -7,8 +7,8 @@ from rasterio.enums import Resampling
 
 from src.app import mcp
 from src.config import resolve_path
-from src.models.raster.convert import Options, Result
-from src.models.resourceref import ResourceRef
+from src.shared.raster.convert import Options, Result
+from src.shared.resourceref import ResourceRef
 
 
 async def _convert(
