@@ -379,7 +379,7 @@ validate_path("/data/projects/dem.tif", [Path("/data/projects")])
 **Phase 2**: Documentation and examples
 - Update README with workspace configuration
 - Provide example configs for common scenarios
-- Add to QUICKSTART.md
+- Add to README.md install instructions
 
 **Phase 3** (Future): Consider default restriction
 - Require explicit configuration for production

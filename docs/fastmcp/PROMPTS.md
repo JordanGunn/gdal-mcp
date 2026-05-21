@@ -916,7 +916,7 @@ def analyze_geospatial_data_quality(file_path: str) -> str:
 4. **Document prompt usage**:
    - When to use prompts vs tools
    - How to compose prompts
-   - Examples in QUICKSTART.md
+   - Examples in TOOLS.md and README.md
 
 ### Long-term (Next Quarter)
 

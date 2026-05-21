@@ -596,8 +596,7 @@ The reflection system:
 
 ## Related Documentation
 
-- [README.md](README.md) - Project overview and philosophy
-- [QUICKSTART.md](QUICKSTART.md) - Installation and setup
+- [README.md](README.md) - Project overview and installation
 - [CHANGELOG.md](CHANGELOG.md) - Release history
 - [docs/VISION.md](docs/VISION.md) - Long-term roadmap
 - [docs/ADR/](docs/ADR/) - Architecture decisions

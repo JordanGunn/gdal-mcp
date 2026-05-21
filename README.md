@@ -1,46 +1,45 @@
-# GDAL MCP
+# gdal-mcp
 
-**Geospatial AI with epistemic reasoning**
-
-GDAL MCP is a Model Context Protocol (MCP) server that provides AI agents with geospatial analysis capabilities while requiring them to **justify their methodological choices** through a reflection middleware system.
-
-**v1.1.3 Released (2026-02-25)**
-
-- Added sub-regional spatial query capability.
-- Added environment variable config options.
+MCP server exposing GDAL/Rasterio operations to AI agents, with a reflection
+middleware that requires structured justification before executing operations
+whose methodology matters (CRS choice, resampling method, query extent).
 
 [![CI](https://github.com/Wayfinder-Foundry/gdal-mcp/actions/workflows/ci.yml/badge.svg)](https://github.com/Wayfinder-Foundry/gdal-mcp/actions/workflows/ci.yml)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 [![Python 3.11+](https://img.shields.io/badge/python-3.11+-blue.svg)](https://www.python.org/downloads/)
 [![FastMCP 2.0](https://img.shields.io/badge/FastMCP-2.0-blue.svg)](https://github.com/jlowin/fastmcp)
 [![PyPI Downloads](https://static.pepy.tech/personalized-badge/gdal-mcp?period=total&units=INTERNATIONAL_SYSTEM&left_color=BLACK&right_color=GREEN&left_text=downloads)](https://pepy.tech/projects/gdal-mcp)
-[![Listed on Spark](https://spark.entire.vc/badges/listed.svg)](https://spark.entire.vc/assets/vb-gdal?utm_source=github&utm_medium=readme)
-[![Install via Spark](https://spark.entire.vc/badges/vb-gdal/install.svg)](https://spark.entire.vc/assets/vb-gdal?utm_source=github&utm_medium=readme)
 
----
+## Install
 
-## Documentation
-
-1. **[Installation, setup, and MCP configuration](QUICKSTART.md)**
-2. **[Complete tool documentation with examples](TOOLS.md)**
-3. **[Runtime configuration and tool surface controls](docs/ENVIRONMENT_VARIABLES.md)**
-4. **[Long-term roadmap and philosophy](docs/VISION.md)**
-5. **[Release history and updates](CHANGELOG.md)**
-
----
-
-## Quick Start
-
-### Install via uvx (Recommended)
+### Via uvx (recommended)
 
 ```bash
-# Run directly from PyPI
 uvx --from gdal-mcp gdal --transport stdio
 ```
 
-### MCP Configuration (Claude Desktop)
+### Via Docker
 
-Add to `~/Library/Application Support/Claude/claude_desktop_config.json`:
+```bash
+docker build -t gdal-mcp .
+docker run -i gdal-mcp gdal --transport stdio
+```
+
+### Local development
+
+```bash
+git clone https://github.com/Wayfinder-Foundry/gdal-mcp.git
+cd gdal-mcp
+uv sync
+uv run gdal --transport stdio
+```
+
+## Configure your MCP client
+
+### Claude Desktop
+
+Add to `claude_desktop_config.json` (macOS: `~/Library/Application Support/Claude/`,
+Windows: `%APPDATA%\Claude\`, Linux: `~/.config/Claude/`):
 
 ```json
 {
@@ -56,135 +55,68 @@ Add to `~/Library/Application Support/Claude/claude_desktop_config.json`:
 }
 ```
 
-**See [QUICKSTART.md](QUICKSTART.md) for:**
-- Alternative installation methods (Docker, local development)
-- Detailed MCP client configuration
-- Workspace security setup
-- Troubleshooting guide
+Restart Claude Desktop. The MCP server indicator should appear, and the
+`raster_*` and `vector_*` tools become available.
 
----
+### Workspace scoping
 
-## Key Features
+`GDAL_MCP_WORKSPACES` is a colon-separated list of directories the server
+is allowed to touch (per [ADR-0022](docs/ADR/0022-workspace-scoping-and-access-control.md)).
+If unset, all paths are allowed and a warning is logged.
 
-### Reflection Middleware
+Optional tool-surface flags: `RASTER=true`, `VECTOR=true`. See
+[docs/ENVIRONMENT_VARIABLES.md](docs/ENVIRONMENT_VARIABLES.md) for the full set.
 
-- Pre-execution reasoning for CRS selection, resampling methods.
-- Structured justifications: intent, alternatives, choice, tradeoffs, confidence.
-- Persistent cache with 75% hit rates in multi-operation workflows.
-- Cross-domain cache sharing. Justifications span both raster and vector operations.
+## Tools
 
-### Comprehensive Toolset
+- **Raster:** `raster_info`, `raster_convert`, `raster_reproject`, `raster_stats`, `raster_query`
+- **Vector:** `vector_info`, `vector_convert`, `vector_reproject`, `vector_clip`, `vector_buffer`, `vector_simplify`, `vector_query`
+- **Resources:** catalog (`workspace://...`), metadata (`metadata://...`), reference (`reference://...`), query results (`query://result/{id}`)
+- **Prompts:** `justify_crs_selection`, `justify_resampling_method`, `justify_query_extent` (and more under `src/prompts/`)
 
-- **Raster tools:** info, convert, reproject, stats, query
-- **Vector tools:** info, reproject, convert, clip, buffer, simplify, query
+See [TOOLS.md](TOOLS.md) for parameters, return shapes, and worked examples.
 
-> See **[Tools Reference](TOOLS.md)** for complete documentation
+## The reflection middleware
 
----
+Tools whose methodology matters refuse to execute until the calling agent
+produces a structured justification. The flow is:
 
-## The Reflection System
+1. Agent calls e.g. `raster_reproject(dst_crs="EPSG:3857", resampling="cubic", ...)`.
+2. Middleware checks `.preflight/justifications/{domain}/` for a matching hash.
+3. On miss, the call raises `ToolError` with a hint pointing at the
+   relevant prompt (e.g. `justify_crs_selection`).
+4. Agent calls the prompt, fills out the `Justification` schema (intent,
+   alternatives considered, choice, tradeoffs, confidence), and re-invokes
+   the tool with a `__reflection` payload.
+5. The justification is cached domain-keyed, so a CRS rationale for
+   EPSG:3857 satisfies both `raster_reproject` and `vector_reproject`
+   on subsequent calls.
 
-### What Makes GDAL MCP Different?
+See [docs/REFLECTION.md](docs/REFLECTION.md) for the schema and cache layout,
+and [docs/VISION.md](docs/VISION.md) for why this exists.
 
-Most AI tool systems execute operations immediately when requested. GDAL MCP requires the AI to **justify methodological decisions** before execution, creating a conversation about the "why" rather than just executing the "what."
+## Documentation
 
-**Traditional AI tool approach:**
-```text
-User: "Reproject this DEM to Web Mercator"
-AI: *silently executes operation*
-Result: DEM reprojected (but with what resampling? why that CRS? what tradeoffs?)
-```
+- [TOOLS.md](TOOLS.md) — tool reference
+- [docs/ENVIRONMENT_VARIABLES.md](docs/ENVIRONMENT_VARIABLES.md) — runtime config
+- [docs/REFLECTION.md](docs/REFLECTION.md) — reflection middleware internals
+- [docs/VISION.md](docs/VISION.md) — long-term direction
+- [docs/ADR/](docs/ADR/) — architecture decision records
+- [CHANGELOG.md](CHANGELOG.md) — release history
+- [CONTRIBUTING.md](CONTRIBUTING.md) — contribution guide
 
-**GDAL MCP:**
-```text
----
-User:
-  > Reproject this DEM to Web Mercator for my web map
----
-AI:
-  [[reflection middleware intercepts]]
----
-AI:
-  """
-  Before reprojecting to EPSG:3857, let me justify this CRS choice:
-     
-  Intent:
-    Web Mercator preserves angles (conformal projection), essential for web tile rendering and navigation
-     
-  Alternatives considered:
-  - EPSG:4326 (WGS84) → rejected:
-    - not conformal, distorts shapes
-  - Local UTM → rejected:
-    - limited extent, not web-standard
-     
-  Tradeoffs:
-    Area distortion increases at high latitudes (acceptable for web visualization)
-     
-  Confidence:
-    High; This is the standard for web mapping.
+## Troubleshooting
 
-  [[justification stored, operation proceeds]]
-  """
----
-Result:
-  DEM reprojected with documented methodology
-```
+**`Access denied: path outside allowed workspaces`** — set `GDAL_MCP_WORKSPACES`
+to include the directory in question (see "Workspace scoping").
 
-### Why This Matters
-
-**1. Utilizes Full MCP Protocol Capabilities**
-
-The Model Context Protocol isn't just about tool exposure. MCP exposes other primitives for agentic reasoning and interaction. 
-
-The reflection system leverages MCP's design to enable:
-- Pre-execution prompting (tool dependencies)
-- Structured reasoning (schema-validated justifications)
-- Stateful workflows (justification caching)
-- Human-in-the-loop interaction (advisory prompts)
-
-**2. Prevents Silent Failures**
-
-Geospatial operations can execute successfully while producing methodologically incorrect results:
-- Nearest-neighbor resampling on continuous elevation data creates artifacts
-- Web Mercator for area calculations creates up to 40%+ distortion
-- Bilinear interpolation on categorical data creates invalid class values
-
-The reflection system surfaces these choices for validation.
-
-**3. Educational, Not Restrictive**
-
-The AI model isn't blocked from executing operations. it's required to demonstrate understanding:
-- First use: Explains reasoning, teaches methodology
-- Cached: Instant execution (knowledge persists)
-- Result: 75%+ cache hit rates, minimal friction
-
-**4. Creates Audit Trail**
-
-Every methodological decision is documented with:
-- Intent: what property must be preserved?
-- Alternatives: what else was considered?
-- Rationale: why this choice?
-- Tradeoffs: what are the limitations?
-- Confidence: high/medium/low
-
-This enables **reproducible geospatial science**.
-
----
+**MCP client doesn't see the server** — verify `uvx --from gdal-mcp gdal --help`
+runs on its own, then restart the client after editing its config file.
 
 ## License
 
-MIT License - see [LICENSE](LICENSE) for details.
+MIT — see [LICENSE](LICENSE).
 
----
-
-## Acknowledgments
-
-- Built with [FastMCP](https://github.com/jlowin/fastmcp)
-- Powered by [Rasterio](https://github.com/rasterio/rasterio) and [GDAL](https://gdal.org)
-- Inspired by the [Model Context Protocol](https://modelcontextprotocol.io)
-
----
-
-**Built with ❤️ for the geospatial AI community**
-
-*Geospatial operations that think, not just execute.*
+Built on [FastMCP](https://github.com/jlowin/fastmcp),
+[Rasterio](https://github.com/rasterio/rasterio), [pyogrio](https://github.com/geopandas/pyogrio),
+and [Shapely](https://github.com/shapely/shapely).
